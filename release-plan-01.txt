@@ -1,0 +1,23 @@
+Release Plan for Better Place Project
+
+Release 0.0
+17 July 2021
+- Domain Research
+- Projest diagrams
+- Project presentation
+
+Release 1.0
+24 July 2021
+- Show a list of animals
+
+Release 2.0
+28 July 2021
+- Add animals to watch list (CRUD)
+- Watch list chek out
+
+Release 3.0
+31 July 2021
+- User login/logout security
+- Track previous animals for logged in users
+
+...
