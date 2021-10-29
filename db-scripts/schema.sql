@@ -6,9 +6,7 @@ DROP TABLE IF EXISTS `betterplace`.`product_category`;
 DROP TABLE IF EXISTS `betterplace`.`animal_address`;
 DROP TABLE IF EXISTS `betterplace`.`animal_geo_coordinates`;
 
-DROP TABLE IF EXISTS `betterplace`.`animal`;
-DROP TABLE IF EXISTS `betterplace`.`animal_type`;
-DROP TABLE IF EXISTS `betterplace`.`animal_status`;
+DROP TABLE IF EXISTS `betterplace`.`country`;
 
 DROP TABLE IF EXISTS `betterplace`.`geo_coordinates`;
 DROP TABLE IF EXISTS `betterplace`.`address`;
@@ -26,10 +24,11 @@ CREATE TABLE IF NOT EXISTS `betterplace`.`country` (
 	`id` BIGINT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(80) NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX(`name`)
-    )
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+    KEY `fk_country` (`country_id`),
+    CONSTRAINT `fk_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`iso_alpha_2`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT = 1;
+
+DROP TABLE IF EXISTS `betterplace`.`address`;
 
 # The first-level Administrative division type 
 # Example: state in the USA, oblast in Russia, etc.
@@ -141,10 +140,10 @@ CREATE TABLE IF NOT EXISTS `betterplace`.`animal_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NOT NULL DEFAULT 'unknown',
   PRIMARY KEY (`id`),
-  INDEX(`name`)
-  )
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+  UNIQUE KEY `unq_name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT = 1;
+
+DROP TABLE IF EXISTS `betterplace`.`animal_status`;
 
 CREATE TABLE IF NOT EXISTS `betterplace`.`animal_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -207,6 +206,8 @@ CREATE TABLE IF NOT EXISTS `betterplace`.`product_category` (
 ENGINE=InnoDB
 AUTO_INCREMENT = 1;
 
+DROP TABLE IF EXISTS `betterplace`.`product`;
+
 CREATE TABLE IF NOT EXISTS `betterplace`.`product` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `sku` VARCHAR(255) DEFAULT NULL,
@@ -225,3 +226,5 @@ CREATE TABLE IF NOT EXISTS `betterplace`.`product` (
 ) 
 ENGINE=InnoDB
 AUTO_INCREMENT = 1;
+
+SET FOREIGN_KEY_CHECKS = 1;
