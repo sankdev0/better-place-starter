@@ -1,11 +1,14 @@
 USE `betterplace` ;
 
+DROP TABLE IF EXISTS `betterplace`.`product`;
+DROP TABLE IF EXISTS `betterplace`.`product_category`;
+
+DROP TABLE IF EXISTS `betterplace`.`animal_address`;
+DROP TABLE IF EXISTS `betterplace`.`animal_geo_coordinates`;
+
 DROP TABLE IF EXISTS `betterplace`.`animal`;
 DROP TABLE IF EXISTS `betterplace`.`animal_type`;
 DROP TABLE IF EXISTS `betterplace`.`animal_status`;
-
-DROP TABLE IF EXISTS `betterplace`.`product`;
-DROP TABLE IF EXISTS `betterplace`.`product_category`;
 
 DROP TABLE IF EXISTS `betterplace`.`geo_coordinates`;
 DROP TABLE IF EXISTS `betterplace`.`address`;
@@ -15,6 +18,7 @@ DROP TABLE IF EXISTS `betterplace`.`locality_type`;
 DROP TABLE IF EXISTS `betterplace`.`region`;
 DROP TABLE IF EXISTS `betterplace`.`region_type`;
 DROP TABLE IF EXISTS `betterplace`.`country`;
+
 
 # Location description
 
@@ -122,7 +126,6 @@ CREATE TABLE IF NOT EXISTS `betterplace`.`geo_coordinates` (
     `elevation` INT NULL DEFAULT NULL, #WGS84
     `latitude` DECIMAL(8,6) NOT NULL, #WGS84
     `longitude` DECIMAL(9,6) NOT NULL, #WGS84
-    `postal_code` VARCHAR(20) NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     KEY `fk_country` (`country_id`),
     CONSTRAINT `fk_geo_coordinates_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
@@ -152,28 +155,48 @@ AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `betterplace`.`animal` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL DEFAULT 'Beast',
+  `name` VARCHAR(255) NOT NULL DEFAULT 'Beastie',
   `birth_date` DATE,
-  `description` VARCHAR(255) DEFAULT NULL,
+  `description` VARCHAR(21300) DEFAULT NULL,
   `image_url` VARCHAR(255) DEFAULT NULL,
   `active` BIT DEFAULT 1,
-   `date_created` DATETIME(6) DEFAULT NULL,
+  `date_created` DATETIME(6) DEFAULT NULL,
   `last_updated` DATETIME(6) DEFAULT NULL,
   `type_id` INT NOT NULL,
   `status_id` INT DEFAULT NULL,
-  `address_id` BIGINT DEFAULT NULL,
-  `geo_coordinates_id` BIGINT DEFAULT NULL,
   INDEX(`name`),
   PRIMARY KEY (`id`),
   KEY `fk_type` (`type_id`),
   CONSTRAINT `fk_animal_type` FOREIGN KEY (`type_id`) REFERENCES `animal_type` (`id`),
   KEY `fk_status` (`status_id`),
-  CONSTRAINT `fk_animal_status` FOREIGN KEY (`status_id`) REFERENCES `animal_status` (`id`),
-  KEY `fk_address` (`address_id`),
-  CONSTRAINT `fk_animal_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`),
-  KEY `fk_geo_coordinates` (`geo_coordinates_id`),
-  CONSTRAINT `fk_animal_geo_coordinates` FOREIGN KEY (`geo_coordinates_id`) REFERENCES `geo_coordinates` (`id`)
+  CONSTRAINT `fk_animal_status` FOREIGN KEY (`status_id`) REFERENCES `animal_status` (`id`)
 ) 
+ENGINE=InnoDB
+AUTO_INCREMENT = 1;
+
+CREATE TABLE IF NOT EXISTS `betterplace`.`animal_geo_coordinates` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `animal_id` BIGINT NOT NULL,
+  `geo_coordinates_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_animal` (`animal_id`),
+  CONSTRAINT `fk_animal_geo_coordinates_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`),
+  KEY `fk_geo_coordinates` (`geo_coordinates_id`),
+  CONSTRAINT `fk_animal_geo_coordinates_coordinates` FOREIGN KEY (`geo_coordinates_id`) REFERENCES `geo_coordinates` (`id`)
+  )
+ENGINE=InnoDB
+AUTO_INCREMENT = 1;
+
+CREATE TABLE IF NOT EXISTS `betterplace`.`animal_address` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `animal_id` BIGINT NOT NULL,
+  `address_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_animal` (`animal_id`),
+  CONSTRAINT `fk_animal_address_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`),
+  KEY `fk_address` (`address_id`),
+  CONSTRAINT `fk_animal_address_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
+  )
 ENGINE=InnoDB
 AUTO_INCREMENT = 1;
 
