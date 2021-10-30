@@ -1,19 +1,21 @@
-# better-place-project starter db-script
+# fluffy-best-project starter db-script
+
+SET @schema_name := 'fluffybest';
 
 -- -----------------------------------------------------
--- Schema betterplace
+-- Schema fluffybest
 -- -----------------------------------------------------
 # Schema and database are synonyms
-DROP SCHEMA IF EXISTS `betterplace`;
-CREATE SCHEMA `betterplace`;
+DROP SCHEMA IF EXISTS `fluffybest`;
+CREATE SCHEMA `fluffybest`;
 
-ALTER SCHEMA `betterplace`
+ALTER SCHEMA `fluffybest`
   DEFAULT CHARACTER SET `utf8`
   DEFAULT COLLATE `utf8_general_ci`;
 
-CREATE USER 'betterplace'@'localhost' IDENTIFIED BY 'betterplace';
+CREATE USER 'fluffybest'@'localhost' IDENTIFIED BY 'fluffybest';
 
-GRANT ALL PRIVILEGES ON `betterplace`.* TO 'betterplace'@'localhost';
+GRANT ALL PRIVILEGES ON `fluffybest`.* TO 'fluffybest'@'localhost';
 
 #
 # Starting with MySQL 8.0.4, the MySQL team changed the 
@@ -25,4 +27,4 @@ GRANT ALL PRIVILEGES ON `betterplace`.* TO 'betterplace'@'localhost';
 # See the MySQL Reference Manual for details: 
 # https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html
 #
-ALTER USER 'betterplace'@'localhost' IDENTIFIED WITH mysql_native_password BY 'betterplace';
+ALTER USER 'fluffybest'@'localhost' IDENTIFIED WITH mysql_native_password BY 'fluffybest';
