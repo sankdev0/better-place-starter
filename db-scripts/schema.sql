@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `fluffybest`.`language`;
 -------------
 CREATE TABLE IF NOT EXISTS `fluffybest`.`language` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-    `alpha_two_code` VARCHAR(2) NOT NULL,
+    `alpha_two_code` VARCHAR(2) NOT NULL, -- ISO 639‑1 codes
     `name` VARCHAR(255) NOT NULL,
     `native_name` VARCHAR(255) NOT NULL,
     `date_format` VARCHAR(255) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`language` (
 -----------------------
 CREATE TABLE IF NOT EXISTS `fluffybest`.`country` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-    `alpha_two_code` VARCHAR(2) NOT NULL,
+    `alpha_two_code` VARCHAR(2) NOT NULL, -- ISO 3166-1 alpha-2 codes
     `short_name` VARCHAR(80) NULL DEFAULT NULL,
     `name` VARCHAR(120) NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -296,13 +296,14 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT 'Beastie',
   `birth_date` DATE,
-  `description` VARCHAR(21300) DEFAULT NULL,
-  `image_url` VARCHAR(255) DEFAULT NULL,
+  `description` VARCHAR(15800) DEFAULT NULL,
+  `full_bio` TEXT NULL DEFAULT NULL,
+  `image_url` VARCHAR(255) NULL DEFAULT NULL,
   `active` BIT DEFAULT 1,
-  `date_created` DATETIME(6) DEFAULT NULL,
-  `last_updated` DATETIME(6) DEFAULT NULL,
+  `date_created` DATETIME(6) NULL DEFAULT NULL,
+  `last_updated` DATETIME(6) NULL DEFAULT NULL,
   `type_id` INT NOT NULL,
-  `status_id` INT DEFAULT NULL,
+  `status_id` INT NULL DEFAULT NULL,
   INDEX(`name`),
   PRIMARY KEY (`id`),
   KEY `fk_type` (`type_id`),

@@ -1,7 +1,38 @@
+-- MIT License
+-- Copyright (c) 2021 san k
+---------------------------
+
+-- DANGEROUS! Might break constrains when run on unprepared database. Recreate the schema first.
+-- Enters sample data into the schema for Fluffy Best backend.
+
 USE `fluffybest` ;
 
 -- Add sample data
 -- -----------------------------------------------------
+
+INSERT INTO language (alpha_two_code, name, native_name, date_format, currency)
+VALUES ('EN', 'English', 'English','mon-dd, yyyy', 'USD');
+
+INSERT INTO language (alpha_two_code, name, native_name, date_format, currency)
+VALUES ('RU', 'Russian', 'Русский','dd.mm.yyyy', 'RUB');
+
+INSERT INTO country (alpha_two_code)
+VALUES ('RU');
+
+INSERT INTO country (alpha_two_code)
+VALUES ('US');
+
+INSERT INTO country_translations (short_name_translation, name_translation, language_id, country_id)
+VALUES ('Russia', 'Russian Federation', 1, 1);
+
+INSERT INTO country_translations (short_name_translation, name_translation, language_id, country_id)
+VALUES ('USA', 'United States of America', 1, 2);
+
+INSERT INTO country_translations (short_name_translation, name_translation, language_id, country_id)
+VALUES ('Россия', 'Российская Федерация', 2, 1);
+
+INSERT INTO country_translations (short_name_translation, name_translation, language_id, country_id)
+VALUES ('США', 'Соединенные Штаты Америки', 2, 2);
 
 INSERT INTO product_category(category_name) VALUES ('BOOKS');
 

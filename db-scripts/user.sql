@@ -1,7 +1,5 @@
 # fluffy-best-project starter db-script
 
-SET @schema_name := 'fluffybest';
-
 -- -----------------------------------------------------
 -- Schema fluffybest
 -- -----------------------------------------------------
@@ -10,8 +8,8 @@ DROP SCHEMA IF EXISTS `fluffybest`;
 CREATE SCHEMA `fluffybest`;
 
 ALTER SCHEMA `fluffybest`
-  DEFAULT CHARACTER SET `utf8`
-  DEFAULT COLLATE `utf8_general_ci`;
+  DEFAULT CHARACTER SET `utf8mb4`
+  DEFAULT COLLATE `utf8mb4_0900_ai_ci`;
 
 CREATE USER 'fluffybest'@'localhost' IDENTIFIED BY 'fluffybest';
 
