@@ -1,8 +1,8 @@
-# Better Place Auxiliary Files
+# Fluffy Best Auxiliary Files
 
-##Additional files, diagrams, pictures for understanding Better Place project
+##Additional files, diagrams, pictures for understanding Fluffy Best project
 
-Better Place is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/).
+Fluffy Best is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/).
 You can find Domain descriptions, diagrams, pictures explaining how the application is built in this [repository](https://github.com/sankdev0/better-place-aux.git).
 
 ##Brief description of application Domain
