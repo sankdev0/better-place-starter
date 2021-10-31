@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS `fluffybest`.`product_category_translations`;
 DROP TABLE IF EXISTS `fluffybest`.`product_category`;
 
 -- drop linking tables
+DROP TABLE IF EXISTS `fluffybest`.`animal_translations`;
 DROP TABLE IF EXISTS `fluffybest`.`animal_address`;
 DROP TABLE IF EXISTS `fluffybest`.`animal_geo_coordinates`;
 DROP TABLE IF EXISTS `fluffybest`.`animal`;
@@ -274,15 +275,18 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_status_translations` (
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL DEFAULT 'Beastie',
-  `birth_date` DATE,
-  `description` VARCHAR(15800) DEFAULT NULL,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+-- TODO: replace with external list and link via id.
+  `breed` VARCHAR(255) NULL DEFAULT NULL,
+  `birth_date` DATE NULL DEFAULT NULL,
+  `description` VARCHAR(15600) NULL DEFAULT NULL,
+  `aggression_level` TINYINT NULL DEFAULT NULL,
   `full_bio` TEXT NULL DEFAULT NULL,
   `image_url` VARCHAR(255) NULL DEFAULT NULL,
   `active` BIT DEFAULT 1,
   `date_created` DATETIME(6) NULL DEFAULT NULL,
   `last_updated` DATETIME(6) NULL DEFAULT NULL,
-  `type_id` INT NOT NULL,
+  `type_id` INT NULL DEFAULT NULL,
   `status_id` INT NULL DEFAULT NULL,
   INDEX(`name`),
   PRIMARY KEY (`id`),
@@ -290,6 +294,22 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   CONSTRAINT `fk_animal_type` FOREIGN KEY (`type_id`) REFERENCES `animal_type` (`id`),
   KEY `fk_status` (`status_id`),
   CONSTRAINT `fk_animal_status` FOREIGN KEY (`status_id`) REFERENCES `animal_status` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT = 1;
+
+CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_translations` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `name_translation` VARCHAR(255) NULL DEFAULT NULL,
+    `breed_translation` VARCHAR(255) NULL DEFAULT NULL,
+    `description_translation` VARCHAR(15800) NULL DEFAULT NULL,
+    `full_bio_translation` TEXT NULL DEFAULT NULL,
+ 	`language_id` INT NOT NULL,
+    `animal_id` BIGINT NOT NULL,
+  INDEX(`name_translation`),
+  PRIMARY KEY (`id`),
+    KEY `fk_language` (`language_id`),
+    CONSTRAINT `animal_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
+    KEY `fk_animal_id` (`animal_id`),
+    CONSTRAINT `animal_translations_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_geo_coordinates` (
