@@ -89,8 +89,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`region_type` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`region_type_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -102,8 +101,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`region_type_translations` (
     CONSTRAINT `region_type_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_region_type` (`region_type_id`),
     CONSTRAINT `region_type_translations_country` FOREIGN KEY (`region_type_id`) REFERENCES `region_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- The region in which the locality is, and which is in the country (first-level Administrative division). 
 -- For example, California or another appropriate first-level Administrative division
@@ -112,14 +110,10 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`region` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NULL DEFAULT NULL,
 	`type_id` INT NULL DEFAULT NULL,
-    `country_id` INT NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
-    KEY `fk_country` (`country_id`),
-    CONSTRAINT `fk_region_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
     KEY `fk_type` (`type_id`),
     CONSTRAINT `fk_region_type` FOREIGN KEY (`type_id`) REFERENCES `region_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`region_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -131,16 +125,14 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`region_translations` (
     CONSTRAINT `region_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_region_translations_region` (`region_id`),
     CONSTRAINT `region_translations_country` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- The locality type examle: town, city, etc.
 CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_type` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_type_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -152,8 +144,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_type_translations` (
     CONSTRAINT `locality_type_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_locality_type` (`locality_type_id`),
     CONSTRAINT `locality_type_translations_locality_type` FOREIGN KEY (`locality_type_id`) REFERENCES `locality_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- The locality in which the street address is, and which is in the region. For example, Mountain View.
 CREATE TABLE IF NOT EXISTS `fluffybest`.`locality` (
@@ -167,8 +158,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`locality` (
     CONSTRAINT `fk_locality_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
     KEY `fk_type` (`type_id`),
     CONSTRAINT `fk_locality_type` FOREIGN KEY (`type_id`) REFERENCES `locality_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -180,16 +170,14 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_translations` (
     CONSTRAINT `locality_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_locality` (`locality_id`),
     CONSTRAINT `locality_translations_locality` FOREIGN KEY (`locality_id`) REFERENCES `locality` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- E.g.: postal address, billing address, delivery address, etc.
 CREATE TABLE IF NOT EXISTS `fluffybest`.`address_type` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(80) NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`address_type_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -201,8 +189,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`address_type_translations` (
     CONSTRAINT `address_type_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_address_type` (`address_type_id`),
     CONSTRAINT `address_type_translations_address_type` FOREIGN KEY (`address_type_id`) REFERENCES `address_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- Follows recommendations on https://schema.org/PostalAddress
 CREATE TABLE IF NOT EXISTS `fluffybest`.`address` (
@@ -225,9 +212,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`address` (
     CONSTRAINT `fk_address_locality` FOREIGN KEY (`locality_id`) REFERENCES `locality` (`id`),
     KEY `fk_region` (`region_id`),
     CONSTRAINT `fk_address_region` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
-    )
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- Follows recommendations on https://schema.org/GeoCoordinates guidelines
 CREATE TABLE IF NOT EXISTS `fluffybest`.`geo_coordinates` (
@@ -235,16 +220,14 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`geo_coordinates` (
 	`address_id` BIGINT NULL DEFAULT NULL, -- For handling coordinates of a certain address
     `country_id` INT NULL DEFAULT NULL,
     `elevation` INT NULL DEFAULT NULL, -- WGS84
-    `latitude` DECIMAL(8,6) NOT NULL, -- WGS84
-    `longitude` DECIMAL(9,6) NOT NULL, -- WGS84
+    `latitude` DECIMAL(16,14) NOT NULL, -- WGS84
+    `longitude` DECIMAL(17,14) NOT NULL, -- WGS84
     PRIMARY KEY (`id`),
     KEY `fk_country` (`country_id`),
     CONSTRAINT `fk_geo_coordinates_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
     KEY `fk_address` (`address_id`),
 	CONSTRAINT `fk_geo_coordinates_address` FOREIGN KEY (`address_id`) REFERENCES `address` (`id`)
-    )
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- Domain tables
 ----------------
@@ -269,15 +252,13 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_type_translations` (
     CONSTRAINT `animal_type_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_animal_type` (`animal_type_id`),
     CONSTRAINT `animal_type_translations_animal_type` FOREIGN KEY (`animal_type_id`) REFERENCES `animal_type` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_status` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL DEFAULT 'unknown',
-  PRIMARY KEY (`id`))
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+  PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_status_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -289,8 +270,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_status_translations` (
     CONSTRAINT `animal_status_translations_language` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
     KEY `fk_animal_status` (`animal_status_id`),
     CONSTRAINT `animal_status_translations_animal_status` FOREIGN KEY (`animal_status_id`) REFERENCES `animal_status` (`id`)
-    )
-ENGINE=InnoDB AUTO_INCREMENT = 1;
+    ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -310,9 +290,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   CONSTRAINT `fk_animal_type` FOREIGN KEY (`type_id`) REFERENCES `animal_type` (`id`),
   KEY `fk_status` (`status_id`),
   CONSTRAINT `fk_animal_status` FOREIGN KEY (`status_id`) REFERENCES `animal_status` (`id`)
-) 
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_geo_coordinates` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -323,9 +301,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_geo_coordinates` (
   CONSTRAINT `fk_animal_geo_coordinates_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`),
   KEY `fk_geo_coordinates` (`geo_coordinates_id`),
   CONSTRAINT `fk_animal_geo_coordinates_coordinates` FOREIGN KEY (`geo_coordinates_id`) REFERENCES `geo_coordinates` (`id`)
-  )
-ENGINE=InnoDB
-AUTO_INCREMENT = 1;
+  ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_address` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
