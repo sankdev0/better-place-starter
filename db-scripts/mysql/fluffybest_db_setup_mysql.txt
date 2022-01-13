@@ -1,0 +1,22 @@
+================================================================================
+===        Spring Boot Fluffy Best application - MySQL Configuration         ===
+================================================================================
+
+@author San K
+
+--------------------------------------------------------------------------------
+
+1) Download and install the MySQL database (e.g., MySQL Community Server 8.0.x),
+   which can be found here: https://dev.mysql.com/downloads/.
+
+2) (Once only) create the Fluffy Best database and user (also named 'fluffybest') by executing the
+   "db/mysql/" sql-scripts in the order: "user.sql", "schema.sql", "data.sql". They bootstrap the
+   initial database with sample data.
+
+3) Run the app. For example use
+   
+   mvn spring-boot:run
+
+N.B. the "fluffybest" database has to exist for the app to work with the JDBC URL value
+as it is configured by default. This condition is taken care of automatically by the `user.sql`
+script if you run that as root.

@@ -1,0 +1,1 @@
+This directory contains code removed from the project.

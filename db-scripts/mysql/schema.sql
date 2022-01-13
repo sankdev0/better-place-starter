@@ -1,17 +1,17 @@
 -- MIT License
 -- Copyright (c) 2021 san k
----------------------------
+-- -------------------------
 
 -- DANGEROUS! Drops existing tables.
 -- Recreates schema for Fluffy Best backend.
--- Supports (TODO: i.e. attempts to, not fullly tested yet!):
+-- Supports (TODO: i.e. attempts to, not fully tested yet!):
 -- elaborate location addressing for international addresses;
 -- i18n internationalization/localization;
 
 USE `fluffybest` ;
 
 -- Drop tables
---------------
+-- ------------
 
 -- drop other tables
 DROP TABLE IF EXISTS `fluffybest`.`product_translations`;
@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS `fluffybest`.`country`;
 DROP TABLE IF EXISTS `fluffybest`.`language`;
 
 -- Aux tables
--------------
+-- -----------
 CREATE TABLE IF NOT EXISTS `fluffybest`.`language` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `alpha_two_code` VARCHAR(2) NOT NULL, -- ISO 639‑1 codes
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`language` (
 ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- Location description
------------------------
+-- ---------------------
 CREATE TABLE IF NOT EXISTS `fluffybest`.`country` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `alpha_two_code` VARCHAR(2) NOT NULL, -- ISO 3166-1 alpha-2 codes
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`region_translations` (
     CONSTRAINT `region_translations_country` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
     ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
--- The locality type examle: town, city, etc.
+-- The locality type example: town, city, etc.
 CREATE TABLE IF NOT EXISTS `fluffybest`.`locality_type` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NULL DEFAULT NULL,
@@ -231,14 +231,15 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`geo_coordinates` (
     ) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 -- Domain tables
-----------------
+-- --------------
 
 -- Animal description
----------------------
+-- -------------------
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_type` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL DEFAULT 'unknown',
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `breed` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unq_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT = 1;
@@ -246,6 +247,7 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_type` (
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_type_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
     `name_translation` VARCHAR(255) NOT NULL,
+    `breed_translation` VARCHAR(255) NOT NULL,
 	`language_id` INT NOT NULL,
     `animal_type_id` INT NOT NULL,
     PRIMARY KEY (`id`),
@@ -276,8 +278,6 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_status_translations` (
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL DEFAULT NULL,
--- TODO: replace with external list and link via id.
-  `breed` VARCHAR(255) NULL DEFAULT NULL,
   `birth_date` DATE NULL DEFAULT NULL,
   `description` VARCHAR(15600) NULL DEFAULT NULL,
   `aggression_level` TINYINT NULL DEFAULT NULL,
@@ -299,7 +299,6 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal` (
 CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_translations` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `name_translation` VARCHAR(255) NULL DEFAULT NULL,
-    `breed_translation` VARCHAR(255) NULL DEFAULT NULL,
     `description_translation` VARCHAR(15800) NULL DEFAULT NULL,
     `full_bio_translation` TEXT NULL DEFAULT NULL,
  	`language_id` INT NOT NULL,
@@ -336,12 +335,12 @@ CREATE TABLE IF NOT EXISTS `fluffybest`.`animal_address` (
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`product_category` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `category_name` VARCHAR(255) NULL DEFAULT NULL,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT = 1;
 
 CREATE TABLE IF NOT EXISTS `fluffybest`.`product_category_translations` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-    `categoty_name_translation` VARCHAR(255) NOT NULL,
+    `name_translation` VARCHAR(255) NOT NULL,
 	`language_id` INT NOT NULL,
     `product_category_id` BIGINT NOT NULL,
     PRIMARY KEY (`id`),

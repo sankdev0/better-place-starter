@@ -11,6 +11,7 @@ ALTER SCHEMA `fluffybest`
   DEFAULT CHARACTER SET `utf8mb4`
   DEFAULT COLLATE `utf8mb4_0900_ai_ci`;
 
+DROP USER IF EXISTS 'fluffybest'@'localhost';
 CREATE USER 'fluffybest'@'localhost' IDENTIFIED BY 'fluffybest';
 
 GRANT ALL PRIVILEGES ON `fluffybest`.* TO 'fluffybest'@'localhost';
